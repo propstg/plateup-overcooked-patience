@@ -101,6 +101,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HandleLifeLoseEvent_Patch.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="OvercookedPatienceSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
