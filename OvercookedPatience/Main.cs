@@ -8,7 +8,7 @@ using Unity.Entities;
 namespace OvercookedPatience {
 
     [BepInProcess("PlateUp.exe")]
-    [BepInPlugin("overcookedpatience", "Overcooked patience", "0.0.1")]
+    [BepInPlugin("overcookedpatience", "Overcooked patience", "0.1.0")]
     public class Mod : KitchenLib.BaseMod {
 
         public Mod() : base(">=1.1.0", Assembly.GetCallingAssembly()) { }
