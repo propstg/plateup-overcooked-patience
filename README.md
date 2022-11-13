@@ -4,7 +4,7 @@ Makes a customer losing patience not a game-ending situation, assuming you have 
 
 ![Preview](./img/preview.png)
 
-Default is to take all of the coins you have, but that can be chagned to 10 coins or 5 coins/impatient customer in the preferences.
+Default is to take all of the coins you have, but that can be changed to 10 coins or 5 coins per impatient customer in the preferences.
 
 ![Preferences](./img/preferences.png)
 
