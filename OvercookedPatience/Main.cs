@@ -9,7 +9,7 @@ using System.Reflection;
 namespace OvercookedPatience {
 
     [BepInProcess("PlateUp.exe")]
-    [BepInPlugin(MOD_ID, MOD_NAME, "0.3.0")]
+    [BepInPlugin(MOD_ID, MOD_NAME, "0.4.0")]
     public partial class Mod : KitchenLib.BaseMod {
 
         public const string MOD_ID = "overcookedpatience";

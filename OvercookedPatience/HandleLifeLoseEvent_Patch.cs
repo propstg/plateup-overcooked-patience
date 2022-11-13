@@ -26,23 +26,22 @@ namespace OvercookedPatience {
                 SMoney money = __instance.GetSingleton<SMoney>();
                 Mod.Log("Money available: " + money.Amount);
 
-                SMoney newMoney = money - getMoneyToLose(loseAllCoins, lose10Coins, lose5Coins, money);
+                int moneyToLose = getMoneyToLose(loseAllCoins, lose10Coins, lose5Coins, money);
+                SMoney newMoney = money - moneyToLose;
 
                 if (money <= 0 || newMoney < 0) {
                     Mod.Log("Not enough money. Passing control to handler.");
                 } else {
                     Mod.Log("Buying a life.");
-
-                    for (int i = 0; i < 5; i++) {
-                        CSoundEvent.Create(__instance.EntityManager, KitchenData.SoundEvent.MessCreated);
-                        CSoundEvent.Create(__instance.EntityManager, KitchenData.SoundEvent.ItemDelivered);
-                    }
+                    playSound(__instance.EntityManager);
 
                     __instance.SetSingleton<SMoney>(newMoney);
 
                     SKitchenStatus status = __instance.GetSingleton<SKitchenStatus>();
                     status.RemainingLives += 1;
                     __instance.SetSingleton<SKitchenStatus>(status);
+
+                    MoneyPopup.CreateMoneyPopup(__instance.EntityManager, __instance, -moneyToLose);
                 }
             }
             return true;
@@ -86,6 +85,12 @@ namespace OvercookedPatience {
             Mod.Log(logMessage);
             return moneyToLose;
         }
-    }
 
+        private static void playSound(EntityManager entityManager) {
+            for (int i = 0; i < 5; i++) {
+                CSoundEvent.Create(entityManager, KitchenData.SoundEvent.MessCreated);
+                CSoundEvent.Create(entityManager, KitchenData.SoundEvent.ItemDelivered);
+            }
+        }
+    }
 }
