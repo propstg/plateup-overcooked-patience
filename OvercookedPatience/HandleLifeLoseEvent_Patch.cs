@@ -33,6 +33,11 @@ namespace OvercookedPatience {
                 } else {
                     Mod.Log("Buying a life.");
 
+                    for (int i = 0; i < 5; i++) {
+                        CSoundEvent.Create(__instance.EntityManager, KitchenData.SoundEvent.MessCreated);
+                        CSoundEvent.Create(__instance.EntityManager, KitchenData.SoundEvent.ItemDelivered);
+                    }
+
                     __instance.SetSingleton<SMoney>(newMoney);
 
                     SKitchenStatus status = __instance.GetSingleton<SKitchenStatus>();
