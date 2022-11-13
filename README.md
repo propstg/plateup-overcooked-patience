@@ -2,11 +2,11 @@
 
 Makes a customer losing patience not a game-ending situation, assuming you have enough coins.
 
-![Preview](url "./img/preview.png")
+![Preview](./img/preview.png)
 
 Default is to take all of the coins you have, but that can be chagned to 10 coins or 5 coins/impatient customer in the preferences.
 
-![Preferences](url "./img/preferences.png")
+![Preferences](./img/preferences.png)
 
 ## Requirements
 
