@@ -87,10 +87,8 @@ namespace OvercookedPatience {
         }
 
         private static void playSound(EntityManager entityManager) {
-            for (int i = 0; i < 5; i++) {
-                CSoundEvent.Create(entityManager, KitchenData.SoundEvent.MessCreated);
-                CSoundEvent.Create(entityManager, KitchenData.SoundEvent.ItemDelivered);
-            }
+            CSoundEvent.Create(entityManager, KitchenData.SoundEvent.MessCreated);
+            CSoundEvent.Create(entityManager, KitchenData.SoundEvent.ItemDelivered);
         }
     }
 }

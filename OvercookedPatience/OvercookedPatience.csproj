@@ -101,6 +101,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MoneyTrackerAddEvent_Patch.cs" />
     <Compile Include="MoneyPopup.cs" />
     <Compile Include="HandleLifeLoseEvent_Patch.cs" />
     <Compile Include="Main.cs" />

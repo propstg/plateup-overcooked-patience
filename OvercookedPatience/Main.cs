@@ -9,7 +9,7 @@ using System.Reflection;
 namespace OvercookedPatience {
 
     [BepInProcess("PlateUp.exe")]
-    [BepInPlugin(MOD_ID, MOD_NAME, "0.4.0")]
+    [BepInPlugin(MOD_ID, MOD_NAME, "0.4.3")]
     public partial class Mod : KitchenLib.BaseMod {
 
         public const string MOD_ID = "overcookedpatience";
@@ -23,8 +23,10 @@ namespace OvercookedPatience {
         }
 
         private void initHarmony() {
+            Log("initHarmony()");
             Events.StartMainMenu_SetupEvent += (s, args) => {
                 Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), MOD_ID);
+                Log("StartMainMenu_SetupEvent()");
             };
         }
 

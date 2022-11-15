@@ -32,7 +32,7 @@ namespace OvercookedPatience {
             AddInfo("The first \"On\" setting will take priority.");
             New<SpacerElement>();
 
-            AddButton("Apply", delegate {
+            AddButton(Localisation["MENU_APPLY_SETTINGS"], delegate {
                 PreferenceUtils.Save();
                 RequestPreviousMenu();
             });

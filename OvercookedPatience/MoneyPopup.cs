@@ -18,7 +18,7 @@ namespace OvercookedPatience {
             buffer.AddComponent<CLifetime>(entity, new CLifetime(1f));
             buffer.AddComponent<CRequiresView>(entity, new CRequiresView() { Type = ViewType.MoneyPopup });
 
-            MoneyTracker.AddEvent(new EntityContext(entityManager, buffer), 0, money);
+            MoneyTracker.AddEvent(new EntityContext(entityManager, buffer), 1337, money);
         }
     }
 }
