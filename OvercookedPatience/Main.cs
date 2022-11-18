@@ -9,24 +9,35 @@ using System.Reflection;
 namespace OvercookedPatience {
 
     [BepInProcess("PlateUp.exe")]
-    [BepInPlugin(MOD_ID, MOD_NAME, "0.4.3")]
+    [BepInPlugin(MOD_ID, MOD_NAME, "0.4.4")]
     public partial class Mod : KitchenLib.BaseMod {
 
         public const string MOD_ID = "overcookedpatience";
         public const string MOD_NAME = "Overcooked Patience";
 
+        private bool registered = false;
+
         public Mod() : base(">=1.1.0", Assembly.GetCallingAssembly()) { }
 
         public void Start() {
+            Mod.Log("Start");
+
             initHarmony();
             initSettings();
         }
 
         private void initHarmony() {
             Log("initHarmony()");
+
             Events.StartMainMenu_SetupEvent += (s, args) => {
+                if (registered) {
+                    return;
+                }
+
                 Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), MOD_ID);
                 Log("StartMainMenu_SetupEvent()");
+
+                registered = true;
             };
         }
 
