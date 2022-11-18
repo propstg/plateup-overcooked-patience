@@ -16,3 +16,7 @@ Default is to take all of the coins you have, but that can be changed to 10 coin
 ## Installation
 
 * Download OvercookedPatience.dll and add to your `PlateUp/BenInEx/plugins` folder.
+
+## Acknowledgements
+* Pimpin'Yuu and [Straightedge109 [twitch]](https://twitch.tv/straightedge109) for suffering through testing with me
+* KitchenLib for being nice and easy to use :D
