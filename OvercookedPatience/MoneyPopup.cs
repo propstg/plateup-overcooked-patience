@@ -1,7 +1,9 @@
-﻿using Kitchen;
+﻿using HarmonyLib;
+using Kitchen;
 using System.Collections.Generic;
 using System.Reflection;
 using Unity.Entities;
+using TMPro;
 
 namespace OvercookedPatience {
 
@@ -17,8 +19,17 @@ namespace OvercookedPatience {
             buffer.AddComponent<CPosition>(entity, new CPosition(new UnityEngine.Vector3()));
             buffer.AddComponent<CLifetime>(entity, new CLifetime(1f));
             buffer.AddComponent<CRequiresView>(entity, new CRequiresView() { Type = ViewType.MoneyPopup });
-
             MoneyTracker.AddEvent(new EntityContext(entityManager, buffer), 1337, money);
+        }
+    }
+
+    [HarmonyPatch(typeof(MoneyPopupView), "UpdateData")]
+    class MoneyPopupView_DoubleNegativeFixerPatch {
+
+        public static void Postfix(TextMeshPro ___Value) {
+            if (___Value.text.StartsWith("--")) {
+                ___Value.text = ___Value.text.Substring(1);
+            }
         }
     }
 }
