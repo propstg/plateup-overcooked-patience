@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using BepInEx.Logging;
+using HarmonyLib;
 using Kitchen;
 
 namespace OvercookedPatience {
@@ -6,8 +7,10 @@ namespace OvercookedPatience {
     [HarmonyPatch(typeof(MoneyTracker), "AddEvent")]
     class MoneyTrackGetRecord {
 
+        private static ManualLogSource log = Logger.CreateLogSource("MoneyTracker");
+
         public static bool Prefix(int identifier, int amount) {
-            Mod.Log("In money tracker add event. Adding " + amount + " for identifier " + identifier);
+            log.LogInfo("In money tracker add event. Adding " + amount + " for identifier " + identifier);
             return true;
         }
     }

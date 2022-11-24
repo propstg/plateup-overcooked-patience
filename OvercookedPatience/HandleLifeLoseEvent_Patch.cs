@@ -1,6 +1,6 @@
-﻿using HarmonyLib;
+﻿using BepInEx.Logging;
+using HarmonyLib;
 using Kitchen;
-using KitchenLib.Utils;
 using Unity.Entities;
 
 namespace OvercookedPatience {
@@ -8,31 +8,29 @@ namespace OvercookedPatience {
     [HarmonyPatch(typeof(HandleLifeLoseEvent), "OnUpdate")]
     class HandleLifeLoseEvent_Patch {
 
+        private static ManualLogSource log = Logger.CreateLogSource("HandleLifeLoseEvent");
+
         public static bool Prefix(HandleLifeLoseEvent __instance) {
             int loseLifeEvents = __instance.GetQuery(new QueryHelper().All((ComponentType)typeof(CLoseLifeEvent))).CalculateEntityCount();
 
             if (loseLifeEvents > 0) {
-                Mod.Log("Intercepting lose life event...");
+                log.LogInfo("Intercepting lose life event...");
 
-                bool loseAllCoins = isLoseAllCoinsSelected();
-                bool lose10Coins = isLose10CoinsSelected();
-                bool lose5Coins = isLose5CoinsSelected();
-
-                if (areNoOptionsSelected(loseAllCoins, lose10Coins, lose5Coins)) {
-                    Mod.Log("No settings are on. Passing control to handler.");
+                if (isModTurnedOff()) {
+                    log.LogInfo("Mod is turned off; passing control to handler.");
                     return true;
                 }
 
                 SMoney money = __instance.GetSingleton<SMoney>();
-                Mod.Log("Money available: " + money.Amount);
+                log.LogInfo("Money available: " + money.Amount);
 
-                int moneyToLose = getMoneyToLose(loseAllCoins, lose10Coins, lose5Coins, money);
+                int moneyToLose = getMoneyToLose(money);
                 SMoney newMoney = money - moneyToLose;
 
                 if (money <= 0 || newMoney < 0) {
-                    Mod.Log("Not enough money. Passing control to handler.");
+                    log.LogInfo("Not enough money. Passing control to handler.");
                 } else {
-                    Mod.Log("Buying a life.");
+                    log.LogInfo("Buying a life.");
                     playSound(__instance.EntityManager);
 
                     __instance.SetSingleton<SMoney>(newMoney);
@@ -47,43 +45,18 @@ namespace OvercookedPatience {
             return true;
         }
 
-        private static bool isLoseAllCoinsSelected() {
-            return isPreferenceSelected(OvercookedPatienceConsts.LOSE_ALL_COINS);
+        private static bool isModTurnedOff() {
+            return OvercookedPatienceSettings.loseCoinsSelected == 0;
         }
 
-        private static bool isLose10CoinsSelected() {
-            return isPreferenceSelected(OvercookedPatienceConsts.LOSE_10_COINS);
-        }
-
-        private static bool isLose5CoinsSelected() {
-            return isPreferenceSelected(OvercookedPatienceConsts.LOSE_5_COINS);
-        }
-
-        private static bool isPreferenceSelected(string preference) {
-            return PreferenceUtils.Get<KitchenLib.BoolPreference>(Mod.MOD_ID, preference).Value;
-        }
-
-        private static bool areNoOptionsSelected(bool loseAllCoins, bool lose10Coins, bool lose5Coins) {
-            return !(loseAllCoins || lose10Coins || lose5Coins);
-        }
-
-        private static SMoney getMoneyToLose(bool loseAllCoins, bool lose10Coins, bool lose5Coins, SMoney currentMoney) {
-            SMoney moneyToLose;
-            string logMessage;
-
-            if (loseAllCoins) {
-                logMessage = OvercookedPatienceConsts.LOSE_ALL_COINS + " is on. Setting value to lose to current coin total";
-                moneyToLose = currentMoney;
-            } else if (lose10Coins) {
-                logMessage = OvercookedPatienceConsts.LOSE_10_COINS + " is on. Setting value to lose to " + OvercookedPatienceConsts.LOSE_10_COINS_VALUE;
-                moneyToLose = OvercookedPatienceConsts.LOSE_10_COINS_VALUE;
-            } else {
-                logMessage = OvercookedPatienceConsts.LOSE_5_COINS + " is on. Setting value to lose to " + OvercookedPatienceConsts.LOSE_5_COINS_VALUE;
-                moneyToLose = OvercookedPatienceConsts.LOSE_5_COINS_VALUE;
+        private static SMoney getMoneyToLose(SMoney currentMoney) {
+            if (OvercookedPatienceSettings.loseCoinsSelected == -1) {
+                log.LogInfo("Lose all coins is selected. Setting value to lose to current coin total");
+                return currentMoney;
             }
 
-            Mod.Log(logMessage);
-            return moneyToLose;
+            log.LogInfo("Lose all coins is not selected. Setting value to lose to " + OvercookedPatienceSettings.loseCoinsSelected);
+            return OvercookedPatienceSettings.loseCoinsSelected;
         }
 
         private static void playSound(EntityManager entityManager) {

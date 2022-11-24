@@ -101,10 +101,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Menu_Patch.cs" />
     <Compile Include="MoneyTrackerAddEvent_Patch.cs" />
     <Compile Include="MoneyPopup.cs" />
     <Compile Include="HandleLifeLoseEvent_Patch.cs" />
     <Compile Include="Main.cs" />
+    <Compile Include="OvercookedPatienceMenu.cs" />
     <Compile Include="OvercookedPatienceSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
