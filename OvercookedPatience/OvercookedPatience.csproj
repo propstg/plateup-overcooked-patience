@@ -73,9 +73,6 @@
     <Reference Include="Kitchen.TutorialMode">
       <HintPath>..\Libraries\Kitchen.TutorialMode.dll</HintPath>
     </Reference>
-    <Reference Include="KitchenLib">
-      <HintPath>..\Libraries\KitchenLib.dll</HintPath>
-    </Reference>
     <Reference Include="KitchenMode">
       <HintPath>..\Libraries\KitchenMode.dll</HintPath>
     </Reference>
