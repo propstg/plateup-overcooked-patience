@@ -30,6 +30,7 @@ namespace OvercookedPatience {
                 if (money <= 0 || newMoney < 0) {
                     log.LogInfo("Not enough money. Passing control to handler.");
                 } else {
+                    Mod.startPatienceCooldown();
                     log.LogInfo("Buying a life.");
                     playSound(__instance.EntityManager);
 
@@ -42,6 +43,7 @@ namespace OvercookedPatience {
                     MoneyPopup.CreateMoneyPopup(__instance.EntityManager, __instance, -moneyToLose);
                 }
             }
+
             return true;
         }
 
