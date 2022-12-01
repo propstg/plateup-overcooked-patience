@@ -8,7 +8,7 @@ namespace OvercookedPatience {
     [HarmonyPatch(typeof(HandleLifeLoseEvent), "OnUpdate")]
     class HandleLifeLoseEvent_Patch {
 
-        private static ManualLogSource log = Logger.CreateLogSource("HandleLifeLoseEvent");
+        private static ManualLogSource log = Logger.CreateLogSource($"{Mod.MOD_NAME} HandleLifeLoseEvent");
 
         public static bool Prefix(HandleLifeLoseEvent __instance) {
             int loseLifeEvents = __instance.GetQuery(new QueryHelper().All((ComponentType)typeof(CLoseLifeEvent))).CalculateEntityCount();
@@ -57,7 +57,7 @@ namespace OvercookedPatience {
                 return currentMoney;
             }
 
-            log.LogInfo("Lose all coins is not selected. Setting value to lose to " + OvercookedPatienceSettings.loseCoinsSelected);
+            log.LogInfo($"Lose all coins is not selected. Setting value to lose to {OvercookedPatienceSettings.loseCoinsSelected}");
             return OvercookedPatienceSettings.loseCoinsSelected;
         }
 

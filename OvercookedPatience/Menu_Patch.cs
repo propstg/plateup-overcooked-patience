@@ -9,7 +9,7 @@ namespace OvercookedPatience {
     [HarmonyPatch(typeof(MainMenu), "Setup")]
     class MainMenu_Patch {
 
-        private static ManualLogSource log = Logger.CreateLogSource("OvercookedPatience MainMenu_Patch");
+        private static ManualLogSource log = Logger.CreateLogSource($"{Mod.MOD_NAME} MainMenu_Patch");
 
         public static bool Prefix(MainMenu __instance) {
             log.LogInfo("In main menu patch");
