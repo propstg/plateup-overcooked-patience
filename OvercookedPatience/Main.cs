@@ -14,7 +14,7 @@ namespace KitchenOvercookedPatience {
         public const string MOD_NAME = "Overcooked Patience";
         public const string MOD_VERSION = "0.4.8";
 
-        public Mod() : base(MOD_ID, MOD_NAME, "blarglebottoms", MOD_VERSION, "1.1.2", Assembly.GetExecutingAssembly()) {
+        public Mod() : base(MOD_ID, MOD_NAME, "blargle", MOD_VERSION, "1.1.2", Assembly.GetExecutingAssembly()) {
             Debug.Log($"Mod loaded: {MOD_ID} {MOD_VERSION}");
             initMainMenu();
             initPauseMenu();
