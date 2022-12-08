@@ -2,10 +2,11 @@
 using Kitchen.Modules;
 using Kitchen;
 using System.Collections.Generic;
+using KitchenLib;
 
-namespace OvercookedPatience {
+namespace KitchenOvercookedPatience {
 
-    public class OvercookedPatienceMenu : Menu<PauseMenuAction> {
+    public class OvercookedPatienceMenu<T> : KLMenu<T> {
 
         private static readonly List<int> loseCoinsOptionValues = new List<int> { 0, 5, 10, -1 };
         private static readonly List<string> loseCoinsOptionDisplay = new List<string> { "Off", "5", "10", "All coins" };
@@ -26,7 +27,6 @@ namespace OvercookedPatience {
                 .OnChanged += delegate (object _, bool value) {
                     OvercookedPatienceSettings.useCooldownOnPatienceLost = value;
                 };
-
             New<SpacerElement>();
             New<SpacerElement>();
 
