@@ -37,6 +37,7 @@
     <Compile Include="Main.cs" />
     <Compile Include="OvercookedPatienceMenu.cs" />
     <Compile Include="OvercookedPatienceSettings.cs" />
+    <Compile Include="PatienceCooldownPatches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -32,7 +32,7 @@ namespace KitchenOvercookedPatience {
                 if (money <= 0 || newMoney < 0) {
                     log("Not enough money. Passing control to handler.");
                 } else {
-                    Mod.startPatienceCooldown();
+                    PatienceCooldownSystem.startPatienceCooldown();
                     log("Buying a life.");
                     playSound(__instance.EntityManager);
 
@@ -50,17 +50,19 @@ namespace KitchenOvercookedPatience {
         }
 
         private static bool isModTurnedOff() {
-            return OvercookedPatienceSettings.loseCoinsSelected == 0;
+            return OvercookedPatienceSettings.getLoseCoinsSelected() == 0;
         }
 
         private static SMoney getMoneyToLose(SMoney currentMoney) {
-            if (OvercookedPatienceSettings.loseCoinsSelected == -1) {
+            int coinsToLose = OvercookedPatienceSettings.getLoseCoinsSelected();
+
+            if (coinsToLose == -1) {
                 log("Lose all coins is selected. Setting value to lose to current coin total");
                 return currentMoney;
             }
 
-            log($"Lose all coins is not selected. Setting value to lose to {OvercookedPatienceSettings.loseCoinsSelected}");
-            return OvercookedPatienceSettings.loseCoinsSelected;
+            log($"Lose all coins is not selected. Setting value to lose to {coinsToLose}");
+            return coinsToLose;
         }
 
         private static void playSound(EntityManager entityManager) {
