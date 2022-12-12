@@ -5,7 +5,7 @@ using System.Reflection;
 using Unity.Entities;
 using TMPro;
 
-namespace OvercookedPatience {
+namespace KitchenOvercookedPatience {
 
     class MoneyPopup {
 
