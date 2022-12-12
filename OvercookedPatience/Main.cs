@@ -12,13 +12,22 @@ namespace KitchenOvercookedPatience {
 
         public const string MOD_ID = "blargle.overcookedpatience";
         public const string MOD_NAME = "Overcooked Patience";
-        public const string MOD_VERSION = "0.4.8";
+        public const string MOD_VERSION = "0.4.9";
+        private static bool isRegistered = false;
 
-        public Mod() : base(MOD_ID, MOD_NAME, "blargle", MOD_VERSION, "1.1.2", Assembly.GetExecutingAssembly()) {
-            Debug.Log($"Mod loaded: {MOD_ID} {MOD_VERSION}");
-            initMainMenu();
-            initPauseMenu();
-            initPreferences();
+        public Mod() : base(MOD_ID, MOD_NAME, "blargle", MOD_VERSION, "1.1.2", Assembly.GetExecutingAssembly()) { }
+
+        protected override void Initialise() {
+            base.Initialise();
+            if (!isRegistered) {
+                Debug.Log($"{MOD_ID} v{MOD_VERSION}: initialized");
+                initMainMenu();
+                initPauseMenu();
+                initPreferences();
+                isRegistered = true;
+            } else {
+                Debug.Log($"{MOD_ID} v{MOD_VERSION}: skipping re-creating menus and preferences");
+            }
         }
 
         private void initMainMenu() {
