@@ -1,19 +1,30 @@
 ﻿using Kitchen;
+using System;
 using UnityEngine;
 
 namespace KitchenOvercookedPatience {
 
     public class OvercookedPatienceSettings {
 
+        public static readonly string MODE_KEY = "mode";
         public static readonly string LOSE_COINS_KEY = "losecoins";
         public static readonly string USE_COOLDOWN_KEY = "usecooldown";
 
+        private static readonly int DEFAULT_MODE_KEY = Convert.ToInt32(OvercookedPatienceMode.LOSE_COINS);
         private static readonly int DEFAULT_LOSE_COINS_VALUE = -1;
         private static readonly bool DEFAULT_USE_COOLDOWN_VALUE = false;
 
-        private static Pref LoseCoinsPref = new Pref("test", nameof(LoseCoinsPref));
-        private static Pref UseCooldownPref = new Pref("test", nameof(UseCooldownPref));
+        private static Pref ModePref = new Pref(Mod.MOD_ID, nameof(ModePref));
+        private static Pref LoseCoinsPref = new Pref(Mod.MOD_ID, nameof(LoseCoinsPref));
+        private static Pref UseCooldownPref = new Pref(Mod.MOD_ID, nameof(UseCooldownPref));
 
+        public static OvercookedPatienceMode getMode() {
+            return (OvercookedPatienceMode)Preferences.Get<int>(ModePref);
+        }
+
+        public static void setMode(OvercookedPatienceMode mode) {
+            Preferences.Set<int>(ModePref, Convert.ToInt32(mode));
+        }
 
         public static int getLoseCoinsSelected() {
             return Preferences.Get<int>(LoseCoinsPref);
@@ -32,8 +43,14 @@ namespace KitchenOvercookedPatience {
         }
 
         public static void registerPreferences() {
+            Preferences.AddPreference<int>(new IntPreference(ModePref, DEFAULT_MODE_KEY));
             Preferences.AddPreference<int>(new IntPreference(LoseCoinsPref, DEFAULT_LOSE_COINS_VALUE));
             Preferences.AddPreference<bool>(new BoolPreference(UseCooldownPref, DEFAULT_USE_COOLDOWN_VALUE));
         }
+    }
+
+    public enum OvercookedPatienceMode {
+        OFF = 0,
+        LOSE_COINS = 1,
     }
 }

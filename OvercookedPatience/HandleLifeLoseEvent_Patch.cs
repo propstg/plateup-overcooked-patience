@@ -50,7 +50,7 @@ namespace KitchenOvercookedPatience {
         }
 
         private static bool isModTurnedOff() {
-            return OvercookedPatienceSettings.getLoseCoinsSelected() == 0;
+            return OvercookedPatienceSettings.getMode() == OvercookedPatienceMode.OFF;
         }
 
         private static SMoney getMoneyToLose(SMoney currentMoney) {
