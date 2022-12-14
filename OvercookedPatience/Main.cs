@@ -21,9 +21,9 @@ namespace KitchenOvercookedPatience {
             base.Initialise();
             if (!isRegistered) {
                 Debug.Log($"{MOD_ID} v{MOD_VERSION}: initialized");
+                initPreferences();
                 initMainMenu();
                 initPauseMenu();
-                initPreferences();
                 isRegistered = true;
             } else {
                 Debug.Log($"{MOD_ID} v{MOD_VERSION}: skipping re-creating menus and preferences");
@@ -51,14 +51,7 @@ namespace KitchenOvercookedPatience {
         }
 
         private void initPreferences() {
-            KitchenLib.IntPreference loseCoins = PreferenceUtils
-                .Register<KitchenLib.IntPreference>(MOD_ID, OvercookedPatienceSettings.LOSE_COINS_KEY, "How many coins to lose when customers lose patience");
-            KitchenLib.BoolPreference useCooldown = PreferenceUtils
-                .Register<KitchenLib.BoolPreference>(MOD_ID, OvercookedPatienceSettings.USE_COOLDOWN_KEY, "Use cooldown after losing patience");
-
-            loseCoins.Value = -1;
-            useCooldown.Value = false;
-            PreferenceUtils.Load();
+            OvercookedPatienceSettings.registerPreferences();
         }
     }
 }
