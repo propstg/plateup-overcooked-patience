@@ -19,7 +19,7 @@ namespace KitchenOvercookedPatience {
             buffer.AddComponent<CPosition>(entity, new CPosition(new UnityEngine.Vector3()));
             buffer.AddComponent<CLifetime>(entity, new CLifetime(1f));
             buffer.AddComponent<CRequiresView>(entity, new CRequiresView() { Type = ViewType.MoneyPopup });
-            MoneyTracker.AddEvent(new EntityContext(entityManager, buffer), 1337, money);
+            MoneyTracker.AddEvent(new EntityContext(entityManager, buffer), EndOfDayMoneyTrackerAppliance.ApplianceId, money);
         }
     }
 

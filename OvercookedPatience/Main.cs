@@ -12,7 +12,7 @@ namespace KitchenOvercookedPatience {
 
         public const string MOD_ID = "blargle.overcookedpatience";
         public const string MOD_NAME = "Overcooked Patience";
-        public const string MOD_VERSION = "0.4.9";
+        public const string MOD_VERSION = "0.4.10";
         private static bool isRegistered = false;
 
         public Mod() : base(MOD_ID, MOD_NAME, "blargle", MOD_VERSION, "1.1.2", Assembly.GetExecutingAssembly()) { }
@@ -24,6 +24,7 @@ namespace KitchenOvercookedPatience {
                 initPreferences();
                 initMainMenu();
                 initPauseMenu();
+                AddGameDataObject<EndOfDayMoneyTrackerAppliance>();
                 isRegistered = true;
             } else {
                 Debug.Log($"{MOD_ID} v{MOD_VERSION}: skipping re-creating menus and preferences");
