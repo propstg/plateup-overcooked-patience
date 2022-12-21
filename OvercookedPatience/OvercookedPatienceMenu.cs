@@ -9,8 +9,8 @@ namespace KitchenOvercookedPatience {
 
     public class OvercookedPatienceMenu<T> : KLMenu<T> {
 
-        private static readonly List<int> modeValues = new List<int> { 0, 1 };
-        private static readonly List<string> modeLabels = new List<string> { "Off", "Lose Coins" };
+        private static readonly List<int> modeValues = new List<int> { 0, 1, 2 };
+        private static readonly List<string> modeLabels = new List<string> { "Off", "Lose Coins", "3 Strikes" };
         private static readonly List<int> loseCoinsOptionValues = new List<int> { 0, 5, 10, -1 };
         private static readonly List<string> loseCoinsOptionDisplay = new List<string> { "0", "5", "10", "All coins" };
         private static readonly List<bool> useCooldownValues = new List<bool> { false, true };
@@ -25,13 +25,13 @@ namespace KitchenOvercookedPatience {
                     OvercookedPatienceSettings.setMode((OvercookedPatienceMode)value);
                 };
 
-            AddLabel("How many coins would you like to lose?");
+            AddLabel("Coins to lose");
             Add(new Option<int>(loseCoinsOptionValues, OvercookedPatienceSettings.getLoseCoinsSelected(), loseCoinsOptionDisplay))
                 .OnChanged += delegate (object _, int value) {
                     OvercookedPatienceSettings.setLoseCoinsSelected(value);
                 };
 
-            AddLabel("Patience cooldown after losing a life?");
+            AddLabel("Patience cooldown");
             Add(new Option<bool>(useCooldownValues, OvercookedPatienceSettings.getUseCooldownOnPatienceLost(), useCooldownLabels))
                 .OnChanged += delegate (object _, bool value) {
                     OvercookedPatienceSettings.setUseCooldownOnPatienceLost(value);

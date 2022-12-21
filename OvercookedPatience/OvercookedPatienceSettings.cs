@@ -52,5 +52,6 @@ namespace KitchenOvercookedPatience {
     public enum OvercookedPatienceMode {
         OFF = 0,
         LOSE_COINS = 1,
+        STRIKES = 2,
     }
 }
