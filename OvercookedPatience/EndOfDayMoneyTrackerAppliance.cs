@@ -9,6 +9,7 @@ namespace KitchenOvercookedPatience {
 
         public override void OnRegister(GameDataObject gameDataObject) {
             ((Appliance)gameDataObject).Name = Mod.MOD_NAME;
+            ((Appliance)gameDataObject).IsPurchasable = false;
             ApplianceId = gameDataObject.ID;
         }
     }
