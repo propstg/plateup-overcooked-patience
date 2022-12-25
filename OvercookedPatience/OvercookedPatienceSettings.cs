@@ -48,6 +48,7 @@ namespace KitchenOvercookedPatience {
             Preferences.AddPreference<int>(new IntPreference(ModePref, DEFAULT_MODE_KEY));
             Preferences.AddPreference<int>(new IntPreference(LoseCoinsPref, DEFAULT_LOSE_COINS_VALUE));
             Preferences.AddPreference<bool>(new BoolPreference(UseCooldownPref, DEFAULT_USE_COOLDOWN_VALUE));
+            Preferences.Load();
         }
     }
 
