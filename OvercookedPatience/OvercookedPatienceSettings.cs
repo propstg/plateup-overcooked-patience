@@ -9,9 +9,11 @@ namespace KitchenOvercookedPatience {
         public static readonly string MODE_KEY = "mode";
         public static readonly string LOSE_COINS_KEY = "losecoins";
         public static readonly string USE_COOLDOWN_KEY = "usecooldown";
+        public static readonly int ALL_COINS = -1;
+        public static readonly int PROGRESSIVE = -2;
 
         private static readonly int DEFAULT_MODE_KEY = Convert.ToInt32(OvercookedPatienceMode.LOSE_COINS);
-        private static readonly int DEFAULT_LOSE_COINS_VALUE = -1;
+        private static readonly int DEFAULT_LOSE_COINS_VALUE = ALL_COINS;
         private static readonly bool DEFAULT_USE_COOLDOWN_VALUE = false;
 
         private static Pref ModePref = new Pref(Mod.MOD_ID, nameof(ModePref));

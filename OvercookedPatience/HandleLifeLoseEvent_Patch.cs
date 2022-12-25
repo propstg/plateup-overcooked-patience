@@ -64,12 +64,17 @@ namespace KitchenOvercookedPatience {
         private static SMoney getMoneyToLose(SMoney currentMoney) {
             int coinsToLose = OvercookedPatienceSettings.getLoseCoinsSelected();
 
-            if (coinsToLose == -1) {
+            if (coinsToLose == OvercookedPatienceSettings.ALL_COINS) {
                 log("Lose all coins is selected. Setting value to lose to current coin total");
                 return currentMoney;
+            } else if (coinsToLose == OvercookedPatienceSettings.PROGRESSIVE) {
+                StrikeSystem.addStrike();
+                int strikes = StrikeSystem.getStrikes();
+                log($"Progressive is selected. Setting value to lose to {strikes * 5} (current strikes ({strikes}) * 5).");
+                return strikes * 5;
             }
 
-            log($"Lose all coins is not selected. Setting value to lose to {coinsToLose}");
+            log($"Lose all coins/progressive not selected. Setting value to lose to {coinsToLose}");
             return coinsToLose;
         }
 
