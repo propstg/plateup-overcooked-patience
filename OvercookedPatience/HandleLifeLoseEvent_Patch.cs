@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using Kitchen;
+using System;
 using Unity.Entities;
 using UnityEngine;
 
@@ -72,6 +73,11 @@ namespace KitchenOvercookedPatience {
                 int strikes = StrikeSystem.getStrikes();
                 log($"Progressive is selected. Setting value to lose to {strikes * 5} (current strikes ({strikes}) * 5).");
                 return strikes * 5;
+            } else if (coinsToLose == OvercookedPatienceSettings.EXPONENTIAL) {
+                StrikeSystem.addStrike();
+                int strikes = StrikeSystem.getStrikes();
+                log($"Exponential is selected. Setting value to lose to {5 * Math.Pow(2, strikes - 1)} (5 * current strikes 2^({strikes - 1})).");
+                return (SMoney)(5 * Math.Pow(2, strikes - 1));
             }
 
             log($"Lose all coins/progressive not selected. Setting value to lose to {coinsToLose}");

@@ -11,8 +11,8 @@ namespace KitchenOvercookedPatience {
 
         private static readonly List<int> modeValues = new List<int> { 0, 1, 2 };
         private static readonly List<string> modeLabels = new List<string> { "Off", "Lose Coins", "3 Strikes" };
-        private static readonly List<int> loseCoinsOptionValues = new List<int> { 0, 5, 10, -1, -2 };
-        private static readonly List<string> loseCoinsOptionDisplay = new List<string> { "0", "5", "10", "All coins", "Progressive" };
+        private static readonly List<int> loseCoinsOptionValues = new List<int> { 0, 5, 10, -1, -2, -3 };
+        private static readonly List<string> loseCoinsOptionDisplay = new List<string> { "0", "5", "10", "All coins", "Progressive", "Exponential" };
         private static readonly List<bool> useCooldownValues = new List<bool> { false, true };
         private static readonly List<string> useCooldownLabels = new List<string> { "Off", "On" };
 
@@ -77,6 +77,7 @@ namespace KitchenOvercookedPatience {
                 case 10: label = "Lose 10 coins when a customer loses patience."; break;
                 case -1: label = "Lose all of your coins when a customer loses patience."; break;
                 case -2: label = "Lose 5 coins the first time a customer loses patience in a day, 10 coins the 2nd time, 15 the 3rd, etc."; break;
+                case -3: label = "Lose 5 coins the first time a customer loses patience in a day, 10 coins the 2nd time, 20 the 3rd, etc."; break;
             }
             return label;
         }

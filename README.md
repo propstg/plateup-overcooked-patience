@@ -25,3 +25,5 @@ Note: This mod only works through the workshop.
 ## Acknowledgements
 * Pimpin'Yuu and [Straightedge109 [twitch]](https://twitch.tv/straightedge109) for suffering through testing with me
 * ValenberghsSven / Testymagic for helping figure out why money would occasionally disappear unexpectedly at the end of days
+* philadelphus - progressive mode suggestion
+* rossc719 - exponential mode suggestion
