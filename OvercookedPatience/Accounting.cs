@@ -50,8 +50,8 @@ namespace KitchenOvercookedPatience {
 
             log($"current money = {(int)money}, old amount from tracker = {oldAmount}, money earned this round = {newAmount}, difficulty bonus = {rewardModifier}, player bonus = {bonus}");
 
-            if (bonus < 0) {
-                log($"Bonus will be less than zero, which will unexpectedly reduce player money. Attempting to zero out player bonus...");
+            if (bonus < 0 || StrikeSystem.getStrikes() > 0) {
+                log($"Bonus will be less than zero or strikes > 0. Zeroing out player bonus.");
                 earningsTracker.OldAmount = money;
                 SetSingleton<SMoneyEarningsTracker>(earningsTracker);
             }
