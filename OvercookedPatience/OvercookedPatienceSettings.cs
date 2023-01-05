@@ -6,9 +6,6 @@ namespace KitchenOvercookedPatience {
 
     public class OvercookedPatienceSettings {
 
-        public static readonly string MODE_KEY = "mode";
-        public static readonly string LOSE_COINS_KEY = "losecoins";
-        public static readonly string USE_COOLDOWN_KEY = "usecooldown";
         public static readonly int ALL_COINS = -1;
         public static readonly int PROGRESSIVE = -2;
         public static readonly int EXPONENTIAL = -3;
@@ -17,10 +14,12 @@ namespace KitchenOvercookedPatience {
         private static readonly int DEFAULT_MODE_KEY = Convert.ToInt32(OvercookedPatienceMode.LOSE_COINS);
         private static readonly int DEFAULT_LOSE_COINS_VALUE = ALL_COINS;
         private static readonly bool DEFAULT_USE_COOLDOWN_VALUE = false;
+        private static readonly bool DEFAULT_RESET_STRIKES_EACH_DAY_VALUE = true;
 
         private static Pref ModePref = new Pref(Mod.MOD_ID, nameof(ModePref));
         private static Pref LoseCoinsPref = new Pref(Mod.MOD_ID, nameof(LoseCoinsPref));
         private static Pref UseCooldownPref = new Pref(Mod.MOD_ID, nameof(UseCooldownPref));
+        private static Pref ResetStrikesEachDayPref = new Pref(Mod.MOD_ID, nameof(ResetStrikesEachDayPref));
 
         public static OvercookedPatienceMode getMode() {
             return (OvercookedPatienceMode)Preferences.Get<int>(ModePref);
@@ -46,10 +45,19 @@ namespace KitchenOvercookedPatience {
             Preferences.Set<bool>(UseCooldownPref, value);
         }
 
+        public static bool getResetStrikesEachDay() {
+            return Preferences.Get<bool>(ResetStrikesEachDayPref);
+        }
+
+        public static void setResetStrikesEachDay(bool value) {
+            Preferences.Set<bool>(ResetStrikesEachDayPref, value);
+        }
+
         public static void registerPreferences() {
             Preferences.AddPreference<int>(new IntPreference(ModePref, DEFAULT_MODE_KEY));
             Preferences.AddPreference<int>(new IntPreference(LoseCoinsPref, DEFAULT_LOSE_COINS_VALUE));
             Preferences.AddPreference<bool>(new BoolPreference(UseCooldownPref, DEFAULT_USE_COOLDOWN_VALUE));
+            Preferences.AddPreference<bool>(new BoolPreference(ResetStrikesEachDayPref, DEFAULT_RESET_STRIKES_EACH_DAY_VALUE));
             Preferences.Load();
         }
     }

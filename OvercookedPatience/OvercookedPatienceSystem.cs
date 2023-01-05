@@ -21,6 +21,7 @@ namespace KitchenOvercookedPatience {
 
             if (loseLifeEvents > 0) {
                 log("Intercepting lose life event...");
+                StrikeSystem.addStrike();
 
                 switch (OvercookedPatienceSettings.getMode()) {
                     case OvercookedPatienceMode.OFF:
@@ -56,7 +57,6 @@ namespace KitchenOvercookedPatience {
                 log("Buying a life.");
                 playSound();
                 SetSingleton<SMoney>(newMoney);
-                addLifeToKitchenStatus();
                 MoneyPopup.CreateMoneyPopup(EntityManager, this, -moneyToLose);
                 clearLoseLifeEvents();
             }
@@ -69,12 +69,10 @@ namespace KitchenOvercookedPatience {
                 log("Lose all coins is selected. Setting value to lose to current coin total");
                 return currentMoney;
             } else if (coinsToLose == OvercookedPatienceSettings.PROGRESSIVE) {
-                StrikeSystem.addStrike();
                 int strikes = StrikeSystem.getStrikes();
                 log($"Progressive is selected. Setting value to lose to {strikes * 5} (current strikes ({strikes}) * 5).");
                 return strikes * 5;
             } else if (coinsToLose == OvercookedPatienceSettings.EXPONENTIAL) {
-                StrikeSystem.addStrike();
                 int strikes = StrikeSystem.getStrikes();
                 log($"Exponential is selected. Setting value to lose to {5 * Math.Pow(2, strikes - 1)} (5 * current strikes 2^({strikes - 1})).");
                 return (SMoney)(5 * Math.Pow(2, strikes - 1));
@@ -85,24 +83,15 @@ namespace KitchenOvercookedPatience {
         }
 
         private void handleStrikesMode() {
-            log("Mod is in STRIKE mode; attempting to add a strike.");
-
-            StrikeSystem.addStrike();
+            log("Mod is in STRIKE mode.");
 
             if (StrikeSystem.getStrikes() < OvercookedPatienceSettings.MAX_STRIKES) {
                 log($"Current strikes: {StrikeSystem.getStrikes()} less than {OvercookedPatienceSettings.MAX_STRIKES}; adding a life.");
-                addLifeToKitchenStatus();
                 playSound();
                 clearLoseLifeEvents();
             } else {
                 log($"Current strikes: {StrikeSystem.getStrikes()} greater than/equal to {OvercookedPatienceSettings.MAX_STRIKES}; passing control to handler.");
             }
-        }
-
-        private void addLifeToKitchenStatus() {
-            SKitchenStatus status = GetSingleton<SKitchenStatus>();
-            status.RemainingLives += 1;
-            SetSingleton<SKitchenStatus>(status);
         }
 
         private void playSound() {

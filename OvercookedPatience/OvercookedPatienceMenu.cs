@@ -25,6 +25,7 @@ namespace KitchenOvercookedPatience {
             addModeSelect();
             coinsSelect = addCoinsSelect();
             cooldownSelect = addCooldownSection();
+            addResetStrikesEachDaySection();
             addBackButton();
         }
 
@@ -91,6 +92,21 @@ namespace KitchenOvercookedPatience {
 
             option.OnChanged += delegate (object _, bool value) {
                 OvercookedPatienceSettings.setUseCooldownOnPatienceLost(value);
+            };
+
+            return selectElement;
+        }
+
+        private SelectElement addResetStrikesEachDaySection() {
+            Option<bool> option = new Option<bool>(useCooldownValues, OvercookedPatienceSettings.getResetStrikesEachDay(), useCooldownLabels);
+
+            AddLabel("Reset each day");
+            AddInfo("Reset strikes/progressive/exponential mode each day. Turn this off to make things more difficult.");
+            SelectElement selectElement = AddSelect(option);
+            AddInfo("Note: Strikes will only reset on the first day, if disabled. Changing the mode mid-run might have unexpected results.");
+
+            option.OnChanged += delegate (object _, bool value) {
+                OvercookedPatienceSettings.setResetStrikesEachDay(value);
             };
 
             return selectElement;
