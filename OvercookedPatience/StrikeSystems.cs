@@ -1,5 +1,4 @@
-﻿using HarmonyLib;
-using Kitchen;
+﻿using Kitchen;
 using UnityEngine;
 
 namespace KitchenOvercookedPatience {
@@ -9,7 +8,7 @@ namespace KitchenOvercookedPatience {
         private static int strikes = 0;
 
         protected override void OnUpdate() {
-            Debug.Log($"{Mod.MOD_ID}: New day; clearing strikes.");
+            Debug.Log($"[{Mod.MOD_ID}] New day; clearing strikes.");
             strikes = 0;
         }
 

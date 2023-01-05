@@ -19,14 +19,14 @@ namespace KitchenOvercookedPatience {
         protected override void Initialise() {
             base.Initialise();
             if (!isRegistered) {
-                Debug.Log($"{MOD_ID} v{MOD_VERSION}: initialized");
+                Debug.Log($"[{MOD_ID}] v{MOD_VERSION} initialized");
                 initPreferences();
                 initMainMenu();
                 initPauseMenu();
                 AddGameDataObject<EndOfDayMoneyTrackerAppliance>();
                 isRegistered = true;
             } else {
-                Debug.Log($"{MOD_ID} v{MOD_VERSION}: skipping re-creating menus and preferences");
+                Debug.Log($"[{MOD_ID}] v{MOD_VERSION} skipping re-creating menus and preferences");
             }
         }
 

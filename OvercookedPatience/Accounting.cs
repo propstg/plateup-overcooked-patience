@@ -11,7 +11,7 @@ namespace KitchenOvercookedPatience {
 
         public static bool Prefix(int identifier, int amount, MoneyTracker __instance) {
             if (amount != 0) {
-                Debug.Log($"{Mod.MOD_ID}: In money tracker add event. Adding {amount} for identifier {identifier}");
+                Debug.Log($"[{Mod.MOD_ID}] In money tracker add event. Adding {amount} for identifier {identifier}");
             }
             return true;
         }
@@ -21,7 +21,7 @@ namespace KitchenOvercookedPatience {
         protected override void OnUpdate() {
             SMoney money = GetSingleton<SMoney>();
             SDay day = GetSingleton<SDay>();
-            Debug.Log($"{Mod.MOD_ID}, start of day money tracking: day = {day.Day}, money = {(int)money}");
+            Debug.Log($"[{Mod.MOD_ID}] start of day money tracking: day = {day.Day}, money = {(int)money}");
         }
     }
 
@@ -58,7 +58,7 @@ namespace KitchenOvercookedPatience {
         }
 
         protected void log(string message) {
-            Debug.Log($"{Mod.MOD_ID}, end of day money tracking: {message}");
+            Debug.Log($"[{Mod.MOD_ID}] end of day money tracking: {message}");
         }
     }
 }

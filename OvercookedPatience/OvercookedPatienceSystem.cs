@@ -1,22 +1,23 @@
-﻿using HarmonyLib;
-using Kitchen;
+﻿using Kitchen;
+using KitchenMods;
 using System;
 using Unity.Entities;
 using UnityEngine;
 
 namespace KitchenOvercookedPatience {
 
-    [HarmonyPatch(typeof(HandleLifeLoseEvent), "OnUpdate")]
-    class HandleLifeLoseEvent_Patch {
+    [UpdateBefore(typeof(HandleLifeLoseEvent))]
+    public class OvercookedPatienceSystem : RestaurantSystem, IModSystem {
 
-        private static readonly int MAX_STRIKES = 3;
+        private EntityQuery loseLifeEventQuery;
 
-        private static void log(object message) {
-            Debug.Log(Mod.MOD_ID + ": " + message);
+        protected override void Initialise() {
+            base.Initialise();
+            loseLifeEventQuery = GetEntityQuery((ComponentType)typeof(CLoseLifeEvent));
         }
 
-        public static bool Prefix(HandleLifeLoseEvent __instance) {
-            int loseLifeEvents = __instance.GetQuery(new QueryHelper().All((ComponentType)typeof(CLoseLifeEvent))).CalculateEntityCount();
+        protected override void OnUpdate() {
+            int loseLifeEvents = loseLifeEventQuery.CalculateEntityCount();
 
             if (loseLifeEvents > 0) {
                 log("Intercepting lose life event...");
@@ -26,25 +27,23 @@ namespace KitchenOvercookedPatience {
                         handleModTurnedOffMode();
                         break;
                     case OvercookedPatienceMode.LOSE_COINS:
-                        handleLoseCoinsMode(__instance);
+                        handleLoseCoinsMode();
                         break;
                     case OvercookedPatienceMode.STRIKES:
-                        handleStrikesMode(__instance);
+                        handleStrikesMode();
                         break;
                 }
             }
-
-            return true;
         }
 
-        private static void handleModTurnedOffMode() {
+        private void handleModTurnedOffMode() {
             log("Mod is turned off; passing control to handler.");
         }
 
-        private static void handleLoseCoinsMode(HandleLifeLoseEvent __instance) {
+        private void handleLoseCoinsMode() {
             log("Mod is in LOSE_COINS mode; attempting to buy life.");
 
-            SMoney money = __instance.GetSingleton<SMoney>();
+            SMoney money = GetSingleton<SMoney>();
             log("Money available: " + money.Amount);
 
             int moneyToLose = getMoneyToLose(money);
@@ -55,14 +54,15 @@ namespace KitchenOvercookedPatience {
             } else {
                 PatienceCooldownSystem.startPatienceCooldown();
                 log("Buying a life.");
-                playSound(__instance.EntityManager);
-                __instance.SetSingleton<SMoney>(newMoney);
-                addLifeToKitchenStatus(__instance);
-                MoneyPopup.CreateMoneyPopup(__instance.EntityManager, __instance, -moneyToLose);
+                playSound();
+                SetSingleton<SMoney>(newMoney);
+                addLifeToKitchenStatus();
+                MoneyPopup.CreateMoneyPopup(EntityManager, this, -moneyToLose);
+                clearLoseLifeEvents();
             }
         }
 
-        private static SMoney getMoneyToLose(SMoney currentMoney) {
+        private SMoney getMoneyToLose(SMoney currentMoney) {
             int coinsToLose = OvercookedPatienceSettings.getLoseCoinsSelected();
 
             if (coinsToLose == OvercookedPatienceSettings.ALL_COINS) {
@@ -84,29 +84,38 @@ namespace KitchenOvercookedPatience {
             return coinsToLose;
         }
 
-        private static void handleStrikesMode(HandleLifeLoseEvent __instance) {
+        private void handleStrikesMode() {
             log("Mod is in STRIKE mode; attempting to add a strike.");
 
             StrikeSystem.addStrike();
 
-            if (StrikeSystem.getStrikes() < MAX_STRIKES) {
-                log($"Current strikes: {StrikeSystem.getStrikes()} less than {MAX_STRIKES}; adding a life.");
-                addLifeToKitchenStatus(__instance);
-                playSound(__instance.EntityManager);
+            if (StrikeSystem.getStrikes() < OvercookedPatienceSettings.MAX_STRIKES) {
+                log($"Current strikes: {StrikeSystem.getStrikes()} less than {OvercookedPatienceSettings.MAX_STRIKES}; adding a life.");
+                addLifeToKitchenStatus();
+                playSound();
+                clearLoseLifeEvents();
             } else {
-                log($"Current strikes: {StrikeSystem.getStrikes()} greater than/equal to {MAX_STRIKES}; passing control to handler.");
+                log($"Current strikes: {StrikeSystem.getStrikes()} greater than/equal to {OvercookedPatienceSettings.MAX_STRIKES}; passing control to handler.");
             }
         }
 
-        private static void addLifeToKitchenStatus(HandleLifeLoseEvent __instance) {
-            SKitchenStatus status = __instance.GetSingleton<SKitchenStatus>();
+        private void addLifeToKitchenStatus() {
+            SKitchenStatus status = GetSingleton<SKitchenStatus>();
             status.RemainingLives += 1;
-            __instance.SetSingleton<SKitchenStatus>(status);
+            SetSingleton<SKitchenStatus>(status);
         }
 
-        private static void playSound(EntityManager entityManager) {
-            CSoundEvent.Create(entityManager, KitchenData.SoundEvent.MessCreated);
-            CSoundEvent.Create(entityManager, KitchenData.SoundEvent.ItemDelivered);
+        private void playSound() {
+            CSoundEvent.Create(EntityManager, KitchenData.SoundEvent.MessCreated);
+            CSoundEvent.Create(EntityManager, KitchenData.SoundEvent.ItemDelivered);
+        }
+
+        private void clearLoseLifeEvents() {
+            EntityManager.DestroyEntity(loseLifeEventQuery);
+        }
+
+        private void log(object message) {
+            Debug.Log($"[{Mod.MOD_ID}] {message}");
         }
     }
 }
