@@ -20,6 +20,7 @@ namespace KitchenOvercookedPatience {
         public static readonly int PROGRESSIVE_OLD = -2;
         public static readonly int EXPONENTIAL_OLD = -3;
         public static readonly int MAX_STRIKES = 3;
+        public static readonly int ACTIVATE_ON_DAY = 4;
 
         private static readonly int DEFAULT_MODE_KEY = Convert.ToInt32(OvercookedPatienceMode.LOSE_COINS_FIXED);
         private static readonly int DEFAULT_LOSE_COINS_VALUE = 5;

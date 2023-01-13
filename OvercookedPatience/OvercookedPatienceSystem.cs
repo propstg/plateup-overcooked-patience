@@ -22,6 +22,14 @@ namespace KitchenOvercookedPatience {
             if (loseLifeEvents > 0) {
                 log("Intercepting lose life event...");
 
+                #if !DEBUG
+                    SDay day = GetSingleton<SDay>();
+                    if (day.Day < OvercookedPatienceSettings.ACTIVATE_ON_DAY) {
+                        log($"Day {day.Day} is less than mod activation day ({OvercookedPatienceSettings.ACTIVATE_ON_DAY}). Passing control to handler.");
+                        return;
+                    }
+                #endif
+
                 SOvercookedStrikes strikes = GetOrDefault<SOvercookedStrikes>();
                 strikes.Strikes++;
                 Set(strikes);

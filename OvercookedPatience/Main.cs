@@ -22,7 +22,6 @@ namespace KitchenOvercookedPatience {
             if (!isRegistered) {
                 Debug.Log($"[{MOD_ID}] v{MOD_VERSION} initialized");
                 initPreferences();
-                initMainMenu();
                 initPauseMenu();
                 AddGameDataObject<EndOfDayMoneyTrackerAppliance>();
                 isRegistered = true;
@@ -31,21 +30,8 @@ namespace KitchenOvercookedPatience {
             }
         }
 
-        private void initMainMenu() {
-            Events.PreferenceMenu_MainMenu_SetupEvent += (s, args) => {
-                Type type = args.instance.GetType().GetGenericArguments()[0];
-                args.mInfo.Invoke(args.instance, new object[] { MOD_NAME, typeof(OvercookedPatienceMenu<>).MakeGenericType(type), false });
-            };
-            Events.PreferenceMenu_MainMenu_CreateSubmenusEvent += (s, args) => {
-                args.Menus.Add(typeof(OvercookedPatienceMenu<MainMenuAction>), new OvercookedPatienceMenu<MainMenuAction>(args.Container, args.Module_list));
-            };
-        }
-
         private void initPauseMenu() {
-            Events.PreferenceMenu_PauseMenu_SetupEvent += (s, args) => {
-                Type type = args.instance.GetType().GetGenericArguments()[0];
-                args.mInfo.Invoke(args.instance, new object[] { MOD_NAME, typeof(OvercookedPatienceMenu<>).MakeGenericType(type), false });
-            };
+            ModsPreferencesMenu<PauseMenuAction>.RegisterMenu(MOD_NAME, typeof(OvercookedPatienceMenu<PauseMenuAction>), typeof(PauseMenuAction));
             Events.PreferenceMenu_PauseMenu_CreateSubmenusEvent += (s, args) => {
                 args.Menus.Add(typeof(OvercookedPatienceMenu<PauseMenuAction>), new OvercookedPatienceMenu<PauseMenuAction>(args.Container, args.Module_list));
             };
