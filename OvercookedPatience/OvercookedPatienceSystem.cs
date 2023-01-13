@@ -21,7 +21,10 @@ namespace KitchenOvercookedPatience {
 
             if (loseLifeEvents > 0) {
                 log("Intercepting lose life event...");
-                StrikeSystem.addStrike();
+
+                SOvercookedStrikes strikes = GetOrDefault<SOvercookedStrikes>();
+                strikes.Strikes++;
+                Set(strikes);
 
                 switch (OvercookedPatienceSettings.getMode()) {
                     case OvercookedPatienceMode.OFF:
@@ -31,10 +34,10 @@ namespace KitchenOvercookedPatience {
                         handleNoPatiencePenaltyMode();
                         break;
                     case OvercookedPatienceMode.STRIKES:
-                        handleStrikesMode();
+                        handleStrikesMode(strikes.Strikes);
                         break;
                     default:
-                        handleLoseCoinsMode();
+                        handleLoseCoinsMode(strikes.Strikes);
                         break;
                 }
             }
@@ -49,13 +52,13 @@ namespace KitchenOvercookedPatience {
             clearLoseLifeEvents();
         }
 
-        private void handleLoseCoinsMode() {
+        private void handleLoseCoinsMode(int strikes) {
             log("Mod is in LOSE_COINS mode; attempting to buy life.");
 
             SMoney money = GetSingleton<SMoney>();
             log("Money available: " + money.Amount);
 
-            int moneyToLose = getMoneyToLose(money);
+            int moneyToLose = getMoneyToLose(money, strikes);
             SMoney newMoney = money - moneyToLose;
 
             if (money <= 0 || newMoney < 0) {
@@ -70,7 +73,7 @@ namespace KitchenOvercookedPatience {
             }
         }
 
-        private SMoney getMoneyToLose(SMoney currentMoney) {
+        private SMoney getMoneyToLose(SMoney currentMoney, int strikes) {
             OvercookedPatienceMode mode = OvercookedPatienceSettings.getMode();
             int coinsToLose = OvercookedPatienceSettings.getLoseCoinsSelected();
 
@@ -78,11 +81,9 @@ namespace KitchenOvercookedPatience {
                 log("Lose all coins is selected. Setting value to lose to current coin total");
                 return currentMoney;
             } else if (mode == OvercookedPatienceMode.LOSE_COINS_PROGRESSIVE) {
-                int strikes = StrikeSystem.getStrikes();
                 log($"Progressive is selected, with {coinsToLose} set as base. Setting value to lose to {strikes * coinsToLose} (current strikes ({strikes}) * {coinsToLose}).");
                 return strikes * coinsToLose;
             } else if (mode == OvercookedPatienceMode.LOSE_COINS_EXPONENTIAL) {
-                int strikes = StrikeSystem.getStrikes();
                 log($"Exponential is selected, with {coinsToLose} set as base. Setting value to lose to {coinsToLose * Math.Pow(2, strikes - 1)} ({coinsToLose} * current strikes 2^({strikes - 1})).");
                 return (SMoney)(coinsToLose * Math.Pow(2, strikes - 1));
             }
@@ -91,15 +92,15 @@ namespace KitchenOvercookedPatience {
             return coinsToLose;
         }
 
-        private void handleStrikesMode() {
+        private void handleStrikesMode(int strikes) {
             log("Mod is in STRIKE mode.");
 
-            if (StrikeSystem.getStrikes() < OvercookedPatienceSettings.MAX_STRIKES) {
-                log($"Current strikes: {StrikeSystem.getStrikes()} less than {OvercookedPatienceSettings.MAX_STRIKES}; adding a life.");
+            if (strikes < OvercookedPatienceSettings.MAX_STRIKES) {
+                log($"Current strikes: {strikes} less than {OvercookedPatienceSettings.MAX_STRIKES}; adding a life.");
                 playSound();
                 clearLoseLifeEvents();
             } else {
-                log($"Current strikes: {StrikeSystem.getStrikes()} greater than/equal to {OvercookedPatienceSettings.MAX_STRIKES}; passing control to handler.");
+                log($"Current strikes: {strikes} greater than/equal to {OvercookedPatienceSettings.MAX_STRIKES}; passing control to handler.");
             }
         }
 

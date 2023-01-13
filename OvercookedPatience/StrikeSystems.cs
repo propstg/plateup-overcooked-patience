@@ -1,11 +1,15 @@
 ﻿using Kitchen;
+using KitchenMods;
+using Unity.Entities;
 using UnityEngine;
 
 namespace KitchenOvercookedPatience {
 
-    class StrikeSystem : StartOfDaySystem {
+    public struct SOvercookedStrikes : IComponentData {
+        public int Strikes;
+    }
 
-        private static int strikes = 0;
+    class StrikeSystem : StartOfDaySystem, IModSystem {
 
         protected override void OnUpdate() {
             SDay day = GetSingleton<SDay>();
@@ -14,16 +18,10 @@ namespace KitchenOvercookedPatience {
                 Debug.Log($"[{Mod.MOD_ID}] New day, but reset strikes each day is disabled.");
             } else {
                 Debug.Log($"[{Mod.MOD_ID}] New day; clearing strikes.");
-                strikes = 0;
+                SOvercookedStrikes strikes =  GetOrDefault<SOvercookedStrikes>();
+                strikes.Strikes = 0;
+                Set(strikes);
             }
-        }
-
-        public static int getStrikes() {
-            return strikes;
-        }
-
-        public static void addStrike() {
-            strikes++;
         }
     }
 }

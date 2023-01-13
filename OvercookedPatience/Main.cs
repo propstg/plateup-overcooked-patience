@@ -11,7 +11,7 @@ namespace KitchenOvercookedPatience {
 
         public const string MOD_ID = "blargle.overcookedpatience";
         public const string MOD_NAME = "Overcooked Patience";
-        public const string MOD_VERSION = "0.6.0";
+        public const string MOD_VERSION = "0.6.1";
         public const float MOD_VERSION_AS_FLOAT = 0.6f;
         private static bool isRegistered = false;
 
