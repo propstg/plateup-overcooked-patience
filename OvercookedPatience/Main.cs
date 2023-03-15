@@ -1,7 +1,6 @@
 ﻿using Kitchen;
 using KitchenLib;
 using KitchenLib.Event;
-using System;
 using System.Reflection;
 using UnityEngine;
 
@@ -11,23 +10,16 @@ namespace KitchenOvercookedPatience {
 
         public const string MOD_ID = "blargle.overcookedpatience";
         public const string MOD_NAME = "Overcooked Patience";
-        public const string MOD_VERSION = "0.6.1";
+        public const string MOD_VERSION = "0.6.3";
         public const float MOD_VERSION_AS_FLOAT = 0.6f;
-        private static bool isRegistered = false;
 
-        public Mod() : base(MOD_ID, MOD_NAME, "blargle", MOD_VERSION, "1.1.2", Assembly.GetExecutingAssembly()) { }
+        public Mod() : base(MOD_ID, MOD_NAME, "blargle", MOD_VERSION, ">=1.1.5", Assembly.GetExecutingAssembly()) { }
 
-        protected override void Initialise() {
-            base.Initialise();
-            if (!isRegistered) {
-                Debug.Log($"[{MOD_ID}] v{MOD_VERSION} initialized");
-                initPreferences();
-                initPauseMenu();
-                AddGameDataObject<EndOfDayMoneyTrackerAppliance>();
-                isRegistered = true;
-            } else {
-                Debug.Log($"[{MOD_ID}] v{MOD_VERSION} skipping re-creating menus and preferences");
-            }
+        protected override void OnInitialise() {
+            Debug.Log($"[{MOD_ID}] v{MOD_VERSION} initialized");
+            initPreferences();
+            initPauseMenu();
+            AddGameDataObject<EndOfDayMoneyTrackerAppliance>();
         }
 
         private void initPauseMenu() {

@@ -12,6 +12,8 @@
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,58 +45,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="0Harmony, Version=2.9.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\0Harmony.dll</HintPath>
-    </Reference>
-    <Reference Include="Kitchen.Common, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Kitchen.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="Kitchen.GameData, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
-    <Reference Include="Kitchen.RestaurantMode, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Kitchen.RestaurantMode.dll</HintPath>
-    </Reference>
-    <Reference Include="KitchenLib-Workshop, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\Steam\steamapps\workshop\content\1599600\2898069883\KitchenLib-Workshop.dll</HintPath>
-    </Reference>
-    <Reference Include="KitchenMode, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\KitchenMode.dll</HintPath>
-    </Reference>
-    <Reference Include="KitchenMods">
-      <HintPath>..\Libraries\KitchenMods.dll</HintPath>
-    </Reference>
-    <Reference Include="Sirenix.Serialization, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
-    <Reference Include="Unity.Collections">
-      <HintPath>..\Libraries\Unity.Collections.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Collections.LowLevel.ILSupport">
-      <HintPath>..\Libraries\Unity.Collections.LowLevel.ILSupport.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Entities, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Unity.Entities.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.InputSystem">
-      <HintPath>..\Libraries\Unity.InputSystem.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Unity.TextMeshPro.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\UnityEngine.CoreModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.InputLegacyModule">
-      <HintPath>..\Libraries\UnityEngine.InputLegacyModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.InputModule">
-      <HintPath>..\Libraries\UnityEngine.InputModule.dll</HintPath>
-    </Reference>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\Yariazen.PlateUp.ModBuildUtilities.1.6.16\build\Yariazen.PlateUp.ModBuildUtilities.targets" Condition="Exists('..\packages\Yariazen.PlateUp.ModBuildUtilities.1.6.16\build\Yariazen.PlateUp.ModBuildUtilities.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Yariazen.PlateUp.ModBuildUtilities.1.6.16\build\Yariazen.PlateUp.ModBuildUtilities.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Yariazen.PlateUp.ModBuildUtilities.1.6.16\build\Yariazen.PlateUp.ModBuildUtilities.targets'))" />
+  </Target>
 </Project>

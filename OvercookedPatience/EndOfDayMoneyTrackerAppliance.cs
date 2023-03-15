@@ -5,6 +5,8 @@ namespace KitchenOvercookedPatience {
 
     class EndOfDayMoneyTrackerAppliance : CustomAppliance {
 
+        public override string UniqueNameID => "OvercookedPatience-EoDMoneyTracker";
+
         public static int ApplianceId;
 
         public override void OnRegister(GameDataObject gameDataObject) {
