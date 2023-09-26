@@ -12,6 +12,7 @@ namespace KitchenOvercookedPatience {
         LOSE_COINS_PROGRESSIVE = 4,
         LOSE_COINS_EXPONENTIAL = 5,
         LOSE_COINS_ALL = 6,
+        LOSE_COINS_PROGRESSIVE_PERCENT = 7,
     }
 
     public class OvercookedPatienceSettings {

@@ -85,6 +85,8 @@ namespace KitchenOvercookedPatience {
             OvercookedPatienceMode mode = OvercookedPatienceSettings.getMode();
             int coinsToLose = OvercookedPatienceSettings.getLoseCoinsSelected();
 
+            log($"Mode: {mode}");
+
             if (mode == OvercookedPatienceMode.LOSE_COINS_ALL) {
                 log("Lose all coins is selected. Setting value to lose to current coin total");
                 return currentMoney;
@@ -94,6 +96,12 @@ namespace KitchenOvercookedPatience {
             } else if (mode == OvercookedPatienceMode.LOSE_COINS_EXPONENTIAL) {
                 log($"Exponential is selected, with {coinsToLose} set as base. Setting value to lose to {coinsToLose * Math.Pow(2, strikes - 1)} ({coinsToLose} * current strikes 2^({strikes - 1})).");
                 return (SMoney)(coinsToLose * Math.Pow(2, strikes - 1));
+            } else if (mode == OvercookedPatienceMode.LOSE_COINS_PROGRESSIVE_PERCENT) {
+                var percentage = strikes * coinsToLose / 100m;
+                var percentageToLose = Math.Min(percentage, 1);
+                var actualCoinsToLose = (SMoney)Math.Round(currentMoney * percentageToLose, MidpointRounding.AwayFromZero);
+                log($"Progressive percentage is selected, with {coinsToLose}% set as base. Setting value to lose to {(int)actualCoinsToLose} (current money ({(int)currentMoney}) * Math.min(1, (current strikes ({strikes}) * base percentage ({coinsToLose}) / 100)).");
+                return actualCoinsToLose;
             }
 
             log($"Fixed is selected. Setting value to lose to {coinsToLose}");

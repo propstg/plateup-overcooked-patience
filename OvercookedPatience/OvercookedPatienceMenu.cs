@@ -9,8 +9,15 @@ namespace KitchenOvercookedPatience {
 
     public class OvercookedPatienceMenu<T> : KLMenu<T> {
 
-        private static readonly List<int> modeValues = new List<int> { 0, 3, 1, 4, 5, 6, 2 };
-        private static readonly List<string> modeLabels = new List<string> { "Off (Default Game)", "No Patience Penalty", "Lose Coins - Fixed", "Lose Coins - Progressive", "Lose Coins - Exponential", "Lose Coins - All", "3 Strikes" };
+        private static readonly List<int> modeValues = new List<int> { 0, 3, 1, 4, 7, 5, 6, 2 };
+        private static readonly List<string> modeLabels = new List<string> { "Off (Default Game)",
+            "No Patience Penalty",
+            "Lose Coins - Fixed",
+            "Lose Coins - Progressive",
+            "Lose Coins - Progressive Percent",
+            "Lose Coins - Exponential",
+            "Lose Coins - All",
+            "3 Strikes" };
         private static readonly List<int> loseCoinsOptionValues = new List<int> { 5, 10, 15, 20 };
         private static readonly List<string> loseCoinsOptionDisplay = new List<string> { "5", "10", "15", "20" };
         private static readonly List<bool> useCooldownValues = new List<bool> { false, true };
@@ -44,7 +51,8 @@ namespace KitchenOvercookedPatience {
                 coinsSelect?.SetSelectable(
                     (OvercookedPatienceMode)value == OvercookedPatienceMode.LOSE_COINS_FIXED ||
                     (OvercookedPatienceMode)value == OvercookedPatienceMode.LOSE_COINS_PROGRESSIVE ||
-                    (OvercookedPatienceMode)value == OvercookedPatienceMode.LOSE_COINS_EXPONENTIAL);
+                    (OvercookedPatienceMode)value == OvercookedPatienceMode.LOSE_COINS_EXPONENTIAL ||
+                    (OvercookedPatienceMode)value == OvercookedPatienceMode.LOSE_COINS_PROGRESSIVE_PERCENT);
                 cooldownSelect?.SetSelectable((OvercookedPatienceMode)value != OvercookedPatienceMode.OFF);
             };
         }
@@ -58,6 +66,7 @@ namespace KitchenOvercookedPatience {
                 case (int)OvercookedPatienceMode.NO_PATIENCE_PENALTY: label = "No penalty will be applied when a customer loses patience."; break;
                 case (int)OvercookedPatienceMode.LOSE_COINS_FIXED: label = $"Lose {loseCoins} coins each time a customer loses patience (change below). If you don't have enough, the game ends."; break;
                 case (int)OvercookedPatienceMode.LOSE_COINS_PROGRESSIVE: label = $"Lose {loseCoins} coins the first time a customer loses patience, {loseCoins * 2} the 2nd, {loseCoins * 3} the 3rd, etc (change {loseCoins} below). If you don't have enough, the game ends."; break;
+                case (int)OvercookedPatienceMode.LOSE_COINS_PROGRESSIVE_PERCENT: label = $"Lose {loseCoins}% of your coins the first time a customer loses patience, {loseCoins * 2}% the 2nd, {loseCoins * 3}% the 3rd, etc (change {loseCoins} below), capped at 100%. If have 0 coins, the game ends."; break;
                 case (int)OvercookedPatienceMode.LOSE_COINS_EXPONENTIAL: label = $"Lose {loseCoins} coins the first time a customer loses patience, {loseCoins * Math.Pow(2, 1)} the 2nd, {loseCoins * Math.Pow(2, 2)} the 3rd, etc (change {loseCoins} below). If you don't have enough, the game ends."; break;
                 case (int)OvercookedPatienceMode.LOSE_COINS_ALL: label = $"Lose all of your current coin total each time a customer loses patience. If you have 0 coins, the game ends."; break;
                 case (int)OvercookedPatienceMode.STRIKES: label = "Up to 3 customers per day/run can lose patience (change below). If a 4th loses patience, the game ends."; break;
