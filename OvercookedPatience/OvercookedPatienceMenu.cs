@@ -69,7 +69,7 @@ namespace KitchenOvercookedPatience {
                 case (int)OvercookedPatienceMode.LOSE_COINS_PROGRESSIVE_PERCENT: label = $"Lose {loseCoins}% of your coins the first time a customer loses patience, {loseCoins * 2}% the 2nd, {loseCoins * 3}% the 3rd, etc (change {loseCoins} below), capped at 100%. If have 0 coins, the game ends."; break;
                 case (int)OvercookedPatienceMode.LOSE_COINS_EXPONENTIAL: label = $"Lose {loseCoins} coins the first time a customer loses patience, {loseCoins * Math.Pow(2, 1)} the 2nd, {loseCoins * Math.Pow(2, 2)} the 3rd, etc (change {loseCoins} below). If you don't have enough, the game ends."; break;
                 case (int)OvercookedPatienceMode.LOSE_COINS_ALL: label = $"Lose all of your current coin total each time a customer loses patience. If you have 0 coins, the game ends."; break;
-                case (int)OvercookedPatienceMode.STRIKES: label = "Up to 3 customers per day/run can lose patience (change below). If a 4th loses patience, the game ends."; break;
+                case (int)OvercookedPatienceMode.STRIKES: label = "Up to 3 customers per day/run can lose patience. If a 4th loses patience, the game ends."; break;
             }
             return label;
         }
