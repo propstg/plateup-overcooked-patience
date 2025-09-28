@@ -1,6 +1,5 @@
 ﻿using HarmonyLib;
 using Kitchen;
-using System.Collections.Generic;
 using System.Reflection;
 using Unity.Entities;
 using TMPro;
@@ -10,10 +9,8 @@ namespace KitchenOvercookedPatience {
     class MoneyPopup {
 
         public static void CreateMoneyPopup(EntityManager entityManager, GenericSystemBase genericSystemBase, int money) {
-            FieldInfo field = genericSystemBase.GetType().GetField("ECBs", BindingFlags.Instance | BindingFlags.NonPublic);
-            Dictionary<ECB, EntityCommandBufferSystem> ecbs = (Dictionary<ECB, EntityCommandBufferSystem>)field.GetValue(genericSystemBase);
-
-            EntityCommandBuffer buffer = ecbs[ECB.End].CreateCommandBuffer();
+            MethodInfo field = genericSystemBase.GetType().GetMethod("GetCommandBuffer", BindingFlags.Instance | BindingFlags.NonPublic);
+            EntityCommandBuffer buffer = (EntityCommandBuffer) field.Invoke(genericSystemBase, new object[] { ECB.End });
             Entity entity = buffer.CreateEntity();
             buffer.AddComponent<CMoneyPopup>(entity, new CMoneyPopup() { Change = money });
             buffer.AddComponent<CPosition>(entity, new CPosition(new UnityEngine.Vector3()));
